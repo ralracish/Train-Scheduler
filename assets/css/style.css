@@ -1,0 +1,17 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color:#cadde1;
+    background-image: url("../images/vintage-concrete.png");
+    height: 100%;
+    width: 100%;
+    color: #777777;
+}
+#train-table th,
+td {
+  display: inline-block;
+  width: 20%;
+  color:navy;
+}
+.form-group{
+    color:navy;
+}
