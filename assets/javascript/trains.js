@@ -54,19 +54,26 @@ database.ref().on("child_added", function (childSnapshot) {
 
   // 8. Store everything into a variable and calculate next arrival time and minutes away
   var trainsData = childSnapshot.val();
-  var convertedFirstTrain = moment(trainsData.firstTrainTime, "HH:mm");
+  var convertedFirstTrain = moment(trainsData.firstTrainTime, "HH:mm").subtract(1,"minutes");
+  console.log(convertedFirstTrain)
+
+  var convertedFirstTrain= moment().format("HH:mm");
+  console.log("Current Time: " + moment(convertedFirstTrainTime).format("HH:mm"));
+
   var difference = moment().diff(moment(convertedFirstTrain), "minutes");
+  console.log("Difference in time: " + difference)
+
   var timeRemaining = difference % trainsData.frequency;
+  console.log(timeRemaining);
+
   var minutesAway = trainsData.frequency - timeRemaining;
+  console.log("Minutes til train: " + minutesAway);
+
   var nextArrival = moment().add(minutesAway, "minutes");
+
   nextArrival = moment(nextArrival).format("HH:mm");
 
-  console.log(convertedFirstTrain)
-  console.log(difference);
-  console.log(timeRemaining);
-  console.log(minutesAway);
-  console.log(nextArrival);
-  
+    
   var newRow = $("<tr>").append(
     $("<td>").text(trainName),
     $("<td>").text(destination),
