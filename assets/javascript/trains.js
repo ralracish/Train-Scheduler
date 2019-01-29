@@ -18,11 +18,11 @@ var database = firebase.database();
 $("#add-train-btn").on("click", function (event) {
   event.preventDefault();
 
-// 3. Grab user input
+  // 3. Grab user input
 
   var trainName = $("#add-train-input").val().trim();
   var destination = $("#destination-input").val().trim();
-  var firstTrainTime = moment($("#first-train-input").val().trim(), "HH:mm");
+  var firstTrainTime = $("#first-train-input").val().trim();
   var frequency = $("#frequency-input").val().trim();
 
   var trainsData = {
@@ -39,8 +39,6 @@ $("#add-train-btn").on("click", function (event) {
   console.log(trainsData.destination)
   console.log(trainsData.firstTrainTime)
   console.log(trainsData.frequency)
-
-  alert("Employee successfully added");
 
   // 6. Clears all of the text boxes
   $("add-train-input").val("");
@@ -63,16 +61,19 @@ database.ref().on("child_added", function (childSnapshot) {
   var nextArrival = moment().add(minutesAway, "minutes");
   nextArrival = moment(nextArrival).format("HH:mm");
 
-  console.log(nextArrival);
+  console.log(convertedFirstTrain)
+  console.log(difference);
+  console.log(timeRemaining);
   console.log(minutesAway);
-
+  console.log(nextArrival);
+  
   var newRow = $("<tr>").append(
     $("<td>").text(trainName),
     $("<td>").text(destination),
     $("<td>").text(frequency),
     $("<td>").text(nextArrival),
     $("<td>").text(minutesAway)
-    );
+  );
 
   //Append the new row to the table
   $("#train-table > tbody").append(newRow);
