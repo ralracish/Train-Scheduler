@@ -24,7 +24,8 @@ $("#add-train-btn").on("click", function (event) {
   var destination = $("#destination-input").val().trim();
   var firstTrainTime = $("#first-train-input").val().trim();
   var frequency = $("#frequency-input").val().trim();
-
+  
+  // 4. Create object for train data
   var trainsData = {
     trainName: trainName,
     destination: destination,
@@ -34,11 +35,6 @@ $("#add-train-btn").on("click", function (event) {
 
   // 5. Uploads trains data to the database
   database.ref().push(trainsData);
-
-  // console.log(trainsData.trainName)
-  // console.log(trainsData.destination)
-  // console.log(trainsData.firstTrainTime)
-  // console.log(trainsData.frequency)
 
   // 6. Clears all of the text boxes
   $("add-train-input").val("");
@@ -51,43 +47,39 @@ $("#add-train-btn").on("click", function (event) {
 database.ref().on("child_added", function (childSnapshot) {
   // console.log(childSnapshot.val());
 
-    // Store everything into a variable.
-    var trainName = childSnapshot.val().trainName;
-    var destination = childSnapshot.val().destination;
-    var firstTrainTime = childSnapshot.val().firstTrainTime;
-    var frequency = childSnapshot.val().frequency;
+  // 8. Store everything added to form into a variable.
+  var trainName = childSnapshot.val().trainName;
+  var destination = childSnapshot.val().destination;
+  var firstTrainTime = childSnapshot.val().firstTrainTime;
+  var frequency = childSnapshot.val().frequency;
 
 
-  // 8. Store everything into a variable and calculate next arrival time and minutes away
-    var convertedFirstTrain = moment(firstTrainTime, "HH:mm").subtract(1, "years");
-  console.log(convertedFirstTrain);
+  // 9. Calculate next arrival time and minutes away
+  var convertedFirstTrain = moment(firstTrainTime, "HH:mm").subtract(1, "years");
+   console.log(convertedFirstTrain);
 
   var difference = moment(firstTrainTime, "HH:mm").diff(moment(convertedFirstTrain), "minutes");
-  console.log("Difference in time: " + difference)
+   console.log("Difference in time: " + difference)
 
   var timeRemaining = difference % frequency;
-  console.log("Time remaining " + timeRemaining);
+   console.log(frequency)
+   console.log("Time remaining " + timeRemaining);
 
   var minutesAway = frequency - timeRemaining;
-  console.log("Minutes til train: " + minutesAway);
+    console.log("Minutes til train: " + minutesAway);
 
   var nextArrival = moment(convertedFirstTrain).add(minutesAway, "minutes");
+    nextArrival=moment(nextArrival).format("HH:mm")
+    console.log(nextArrival)
 
-  nextArrival = moment(nextArrival).format("HH:mm");
-  console.log(nextArrival)
-
-    
-
-
-
-  //Append the new row to the table
+  // 10. Append the new row to the table
   var newRow = $("<tr>").append(
     $("<td>").text(trainName),
     $("<td>").text(destination),
     $("<td>").text(frequency),
     $("<td>").text(nextArrival),
     $("<td>").text(minutesAway)
-    );
+  );
   $("#train-table > tbody").append(newRow);
 
 });
