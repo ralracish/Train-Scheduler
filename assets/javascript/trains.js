@@ -13,12 +13,12 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-// 3. Add Button for adding trains
+// 2. Add Button for adding trains
 
 $("#add-train-btn").on("click", function (event) {
   event.preventDefault();
 
-  // 4. Grab user input
+// 3. Grab user input
 
   var trainName = $("#add-train-input").val().trim();
   var destination = $("#destination-input").val().trim();
@@ -35,10 +35,12 @@ $("#add-train-btn").on("click", function (event) {
   // 5. Uploads trains data to the database
   database.ref().push(trainsData);
 
-  console.log(trainName)
-  console.log(destination)
-  console.log(firstTrainTime)
-  console.log(frequency)
+  console.log(trainsData.trainName)
+  console.log(trainsData.destination)
+  console.log(trainsData.firstTrainTime)
+  console.log(trainsData.frequency)
+
+  alert("Employee successfully added");
 
   // 6. Clears all of the text boxes
   $("add-train-input").val("");
@@ -76,6 +78,3 @@ database.ref().on("child_added", function (childSnapshot) {
   $("#train-table > tbody").append(newRow);
 
 });
-
-
-
