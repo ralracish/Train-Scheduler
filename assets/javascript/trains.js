@@ -32,15 +32,25 @@ $("#add-train-btn").on("click", function (event) {
     firstTrainTime: firstTrainTime,
     frequency: frequency,
   };
+ 
+  //Input validation
 
-  // 5. Uploads trains data to the database
-  database.ref().push(trainsData);
+  if (trainName === "" || destination === "" || firstTrainTime === '' || frequency === ""){
+    $("#alert").addClass("show")
+    
+  } 
+  else {
+    
+    // 5. Uploads trains data to the database
+    
+    database.ref().push(trainsData);
 
-  // 6. Clears all of the text boxes
-  $("add-train-input").val("");
-  $("#destination-input").val("");
-  $("#first-train-input").val("");
-  $("#frequency-input").val("");
+    // 6. Clears all of the text boxes
+    $("add-train-input").val("");
+    $("#destination-input").val("");
+    $("#first-train-input").val("");
+    $("#frequency-input").val("");
+  }
 })
 
 // 7. Create Firebase event for adding train information to database and row in html when user adds an entry 
